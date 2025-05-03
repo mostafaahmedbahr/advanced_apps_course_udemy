@@ -26,9 +26,8 @@ class NewsScreen extends StatelessWidget {
                 itemBuilder: (context,index){
                   var article = newsCubit.newsDataModel!.articles![index];
                   return ArticleItem(
-                    image:
-
-                    article.urlToImage.toString(),
+                    image: article.urlToImage.toString(),
+                    url: article.url.toString(),
                   );
                 },
                 separatorBuilder:  (context,index){

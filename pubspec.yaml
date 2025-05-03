@@ -40,6 +40,7 @@ dependencies:
   bloc: ^8.1.4
   conditional_builder_null_safety: ^0.0.6
   shared_preferences: ^2.2.3
+  flutter_inappwebview:
 
 dev_dependencies:
   flutter_test:
