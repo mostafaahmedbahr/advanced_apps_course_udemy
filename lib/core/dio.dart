@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_advanced_applications_course_udemy_2025/weather_app/dio/end_points.dart';
-import 'package:flutter_advanced_applications_course_udemy_2025/weather_app/dio/sh.dart';
+import 'package:flutter_advanced_applications_course_udemy_2025/core/end_points.dart';
+import 'package:flutter_advanced_applications_course_udemy_2025/core/sh.dart';
 
 
 
@@ -11,7 +11,7 @@ class DioHelper
   {
     dio = Dio(
       BaseOptions(
-        baseUrl: baseUrl,
+        baseUrl: newsBaseUrl,
         receiveDataWhenStatusError: true,
       ),
     );

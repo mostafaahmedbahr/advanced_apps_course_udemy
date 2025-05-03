@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_applications_course_udemy_2025/weather_app/cubit/weather_states.dart';
-import 'package:flutter_advanced_applications_course_udemy_2025/weather_app/dio/dio.dart';
-import 'package:flutter_advanced_applications_course_udemy_2025/weather_app/dio/end_points.dart';
+ import 'package:flutter_advanced_applications_course_udemy_2025/core/end_points.dart';
 import 'package:flutter_advanced_applications_course_udemy_2025/weather_app/models/weather_data_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../core/dio.dart';
 
 class WeatherCubit extends Cubit<WeatherStates> {
   WeatherCubit() : super(WeatherInitState());
