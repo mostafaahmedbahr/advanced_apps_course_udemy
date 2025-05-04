@@ -1,5 +1,6 @@
  import 'package:flutter/material.dart';
 import 'package:flutter_advanced_applications_course_udemy_2025/news_app/cubit/news_cubit.dart';
+import 'package:flutter_advanced_applications_course_udemy_2025/note_app/note_cubit/notes_cubit.dart';
 import 'package:flutter_advanced_applications_course_udemy_2025/weather_app/cubit/weather_cubit.dart';
  import 'package:flutter_advanced_applications_course_udemy_2025/core/sh.dart';
 import 'package:flutter_advanced_applications_course_udemy_2025/weather_app/screens/weather_screen.dart';
@@ -8,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'core/bloc_observer.dart';
 import 'core/dio.dart';
 import 'news_app/screens/news_screen.dart';
+import 'note_app/note_screens/notes_on_boarding_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,6 +29,7 @@ class MyApp extends StatelessWidget {
       providers: [
        // BlocProvider(create: (context)=>WeatherCubit()..getWeatherData(location: "giza"),),
         BlocProvider(create: (context)=>NewsCubit()..getNewsData(country: "us",category: "technology"),),
+        BlocProvider(create: (context)=>NotesCubit(),)
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -35,7 +38,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const NewsScreen(),
+        home: const OnBoardingNoteScreen(),
       ),
     );
   }
