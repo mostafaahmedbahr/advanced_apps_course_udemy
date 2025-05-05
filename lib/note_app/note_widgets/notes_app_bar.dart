@@ -8,7 +8,7 @@ class NotesAppBar extends StatelessWidget {
     return   Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Column(
+        const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text("Hey Mostafa !",style: TextStyle(

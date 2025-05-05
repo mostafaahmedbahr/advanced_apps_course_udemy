@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 
+import '../note_cubit/notes_cubit.dart';
+
 class NotesSearchField extends StatelessWidget {
-  const NotesSearchField({super.key, this.controller});
-  final TextEditingController? controller;
+  const NotesSearchField({super.key, });
+
   @override
   Widget build(BuildContext context) {
+    final notesCubit = NotesCubit.get(context);
+  final controller = TextEditingController();
     return TextFormField(
-      onChanged: (value){},
+      onChanged: (value){
+        notesCubit.searchNotes(value);
+
+      },
       onTap: (){},
       autovalidateMode: AutovalidateMode.onUserInteraction,
       controller: controller,

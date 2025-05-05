@@ -4,6 +4,8 @@ import 'package:flutter_advanced_applications_course_udemy_2025/note_app/note_cu
 import 'package:flutter_advanced_applications_course_udemy_2025/note_app/note_widgets/notes_list_item.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../note_models/note_model.dart';
+
 class NotesList extends StatelessWidget {
   const NotesList({super.key});
 
@@ -12,14 +14,18 @@ class NotesList extends StatelessWidget {
     return BlocBuilder<NotesCubit,NotesStates>(
       builder: (context,state){
         var notesCubit =  NotesCubit.get(context);
-        final personalNotes = notesCubit.notesList.where((note) => note.noteType == 'Personal').toList();
-        final workNotes =     notesCubit.notesList.where((note) => note.noteType == 'Work').toList();
-        final ideasNotes =    notesCubit.notesList.where((note) => note.noteType == 'Ideas').toList();
-        final filterNotesList =
-        notesCubit.selectedTypeIndex == 1 ? personalNotes :
-        notesCubit.selectedTypeIndex == 2 ? workNotes :
-        notesCubit.selectedTypeIndex == 3 ? ideasNotes :
-        notesCubit.notesList;
+        List<NoteModel> displayNotes = notesCubit.notesList.where((note) {
+          // Apply type filter if selected
+          final typeMatch = notesCubit.selectedTypeIndex == 0 ||
+              (notesCubit.selectedTypeIndex == 1 && note.noteType == 'Personal') ||
+              (notesCubit.selectedTypeIndex == 2 && note.noteType == 'Work') ||
+              (notesCubit.selectedTypeIndex == 3 && note.noteType == 'Ideas');
+          // Apply search filter if active
+          final searchMatch = notesCubit.searchQuery.isEmpty ||
+              note.noteTitle.toLowerCase().contains(notesCubit.searchQuery) ||
+              note.noteContent.toLowerCase().contains(notesCubit.searchQuery);
+          return typeMatch && searchMatch;
+        }).toList();
         return Expanded(
           child: GridView.builder(
             padding: const EdgeInsets.all(0),
@@ -29,13 +35,14 @@ class NotesList extends StatelessWidget {
               crossAxisSpacing: 16,
               childAspectRatio: 1,
             ),
-            itemCount: filterNotesList.length,
+            itemCount: displayNotes.length,
             itemBuilder: (context, index) {
               return   NotesListItem(
-                noteType: filterNotesList[index].noteType,
-                noteId: filterNotesList[index].id,
-                noteTitle: filterNotesList[index].noteTitle,
-                noteContent:  filterNotesList[index].noteContent,
+                noteModel: displayNotes[index],
+                noteType: displayNotes[index].noteType,
+                noteId: displayNotes[index].id,
+                noteTitle: displayNotes[index].noteTitle,
+                noteContent:  displayNotes[index].noteContent,
                 index: index,
               );
             },

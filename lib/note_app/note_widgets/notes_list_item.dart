@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_applications_course_udemy_2025/note_app/note_cubit/notes_cubit.dart';
+import 'package:flutter_advanced_applications_course_udemy_2025/note_app/note_models/note_model.dart';
+import 'package:flutter_advanced_applications_course_udemy_2025/note_app/note_screens/edit_note_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class NotesListItem extends StatelessWidget {
@@ -8,18 +10,18 @@ class NotesListItem extends StatelessWidget {
   final int noteId;
   final String noteContent;
   final String noteType;
+  final NoteModel noteModel;
   const NotesListItem({
     super.key,
-    required this.index, required this.noteTitle, required this.noteContent, required this.noteId, required this.noteType,
+    required this.index, required this.noteTitle, required this.noteContent, required this.noteId, required this.noteType, required this.noteModel,
   });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: (){
-        print(noteId);
-        print(noteTitle);
-        print(noteType);
+        Navigator.push(context, MaterialPageRoute(
+            builder: (_) =>   EditNoteScreen(note: noteModel,)));
       },
       child: Stack(
         alignment: Alignment.bottomRight,
