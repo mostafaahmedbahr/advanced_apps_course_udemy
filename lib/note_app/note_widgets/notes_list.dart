@@ -11,22 +11,31 @@ class NotesList extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<NotesCubit,NotesStates>(
       builder: (context,state){
+        var notesCubit =  NotesCubit.get(context);
+        final personalNotes = notesCubit.notesList.where((note) => note.noteType == 'Personal').toList();
+        final workNotes =     notesCubit.notesList.where((note) => note.noteType == 'Work').toList();
+        final ideasNotes =    notesCubit.notesList.where((note) => note.noteType == 'Ideas').toList();
+        final filterNotesList =
+        notesCubit.selectedTypeIndex == 1 ? personalNotes :
+        notesCubit.selectedTypeIndex == 2 ? workNotes :
+        notesCubit.selectedTypeIndex == 3 ? ideasNotes :
+        notesCubit.notesList;
         return Expanded(
           child: GridView.builder(
             padding: const EdgeInsets.all(0),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2, // Number of columns
-              mainAxisSpacing: 16, // Vertical spacing between items
-              crossAxisSpacing: 16, // Horizontal spacing between items
-              childAspectRatio: 1, // Square items (adjust as needed)
+              crossAxisCount: 2,
+              mainAxisSpacing: 16,
+              crossAxisSpacing: 16,
+              childAspectRatio: 1,
             ),
-            itemCount: NotesCubit.get(context).notesList.length, // Replace with your actual item count
+            itemCount: filterNotesList.length,
             itemBuilder: (context, index) {
-              final isBigItem = index % 3 == 0;
               return   NotesListItem(
-                noteTitle: NotesCubit.get(context).notesList[index].noteTitle,
-                noteContent:  NotesCubit.get(context).notesList[index].noteContent,
-                isBig: isBigItem,
+                noteType: filterNotesList[index].noteType,
+                noteId: filterNotesList[index].id,
+                noteTitle: filterNotesList[index].noteTitle,
+                noteContent:  filterNotesList[index].noteContent,
                 index: index,
               );
             },

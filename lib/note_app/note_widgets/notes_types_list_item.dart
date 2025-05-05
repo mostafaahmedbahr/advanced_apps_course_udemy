@@ -15,22 +15,24 @@ class NotesTypesListItem extends StatelessWidget {
         return GestureDetector(
           onTap: (){
             notesCubit.selectNoteType(index);
+            print(notesCubit.selectedTypeIndex);
           },
-          child: Column(
-            children: [
-              Text(NotesCubit.get(context).notesTypesList[index].title,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-              ),),
-              const SizedBox(height: 4),
-              if(isSelected)// Spacing between text and line
-              Container(
-                height: 2,
-                width: 45, // Adjust width as needed
-                color: Colors.pink.withOpacity(0.4), // Match your app theme
-              ),
-            ],
+          child: IntrinsicWidth(
+            child: Column(
+              children: [
+                Text(NotesCubit.get(context).notesTypesList[index].title,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),),
+                const SizedBox(height: 4),
+                if(isSelected)// Spacing between text and line
+                Container(
+                  height: 2,
+                  color: Colors.pink.withOpacity(0.4), // Match your app theme
+                ),
+              ],
+            ),
           ),
         );
       },

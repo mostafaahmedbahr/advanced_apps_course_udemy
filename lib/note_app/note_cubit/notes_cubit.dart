@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+ import 'package:hive_flutter/adapters.dart';
 import '../note_models/note_model.dart';
 import '../note_models/notes_type_model.dart';
 import '../note_screens/notes_screen.dart';
@@ -24,9 +25,10 @@ class NotesCubit extends Cubit<NotesStates> {
   }
 
   List<NotesTypeModel> notesTypesList = [
-    NotesTypeModel(title: "Notes", id: 1),
-    NotesTypeModel(title: "Todo", id: 2),
-    NotesTypeModel(title: "Blogs", id: 3),
+    NotesTypeModel(title: "All", id: "All"),
+    NotesTypeModel(title: "Personal", id: "Personal"),
+    NotesTypeModel(title: "Work", id: "Work"),
+    NotesTypeModel(title: "Ideas", id: "Ideas"),
   ];
 
   int selectedTypeIndex = 0 ;
@@ -36,12 +38,55 @@ class NotesCubit extends Cubit<NotesStates> {
     emit(SelectNoteTypeState());
   }
 
-
+  late Box<NoteModel> notesBox;
   List<NoteModel> notesList = [];
-  addNewNote(NoteModel newNote){
-    notesList.add(newNote);
+  Future<void> addNewNote(NoteModel newNote) async {
+    await notesBox.add(newNote);
+    notesList = notesBox.values.toList();
     emit(AddNewNoteState());
   }
 
 
+
+  Future<void> deleteNoteById(int noteId) async {
+    try {
+      final key = notesBox.keys.firstWhere(
+            (key) => notesBox.get(key)?.id == noteId,
+        orElse: () => null,
+      );
+      if (key != null) {
+        await notesBox.delete(key);
+        notesList = notesBox.values.toList();
+        emit(DeleteNoteSuccessState());
+      } else {
+        emit(DeleteNoteErrorState('Note not found'));
+      }
+    } catch (e) {
+      emit(DeleteNoteErrorState(e.toString()));
+    }
+  }
+
+
+  Future<void> initHive() async {
+    await Hive.initFlutter(); // Initialize Hive
+    Hive.registerAdapter(NoteModelAdapter()); // Register adapter
+    notesBox = await Hive.openBox<NoteModel>('notes_box'); // Open box
+
+    // Load existing notes
+    notesList = notesBox.values.toList();
+    emit(NotesLoadedFromCacheState());
+  }
+
+  // Update example
+  Future<void> updateNote(int key, NoteModel updatedNote) async {
+    await notesBox.put(key, updatedNote);
+    notesList = notesBox.values.toList();
+    emit(UpdateNoteState());
+  }
+
+  @override
+  Future<void> close() async {
+    await notesBox.close();
+    super.close();
+  }
 }
