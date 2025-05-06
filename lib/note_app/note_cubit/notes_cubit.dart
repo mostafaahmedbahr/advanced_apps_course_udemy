@@ -1,4 +1,5 @@
-  import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
  import 'package:hive_flutter/adapters.dart';
 import '../note_models/note_model.dart';
 import '../note_models/notes_type_model.dart';
@@ -11,10 +12,11 @@ class NotesCubit extends Cubit<NotesStates> {
 
   static NotesCubit get(context) => BlocProvider.of(context);
 
-  static int notesPageIndex = 0;
+   static int notesPageIndex = 0;
 
-  List notesScreens = [
+  final List<Widget> notesScreens = [
     const NotesScreen(),
+     const NotesScreen(),
     const NotesProfileScreen(),
   ];
 

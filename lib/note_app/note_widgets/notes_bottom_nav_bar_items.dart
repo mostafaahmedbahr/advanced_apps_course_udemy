@@ -17,7 +17,7 @@ class NotesBottomNavBarItems extends StatelessWidget {
         BlocBuilder<NotesCubit, NotesStates>(
           builder: (context, state) {
             return BottomNavigationBar(
-              currentIndex: NotesCubit.notesPageIndex,
+              currentIndex: NotesCubit .notesPageIndex,
               onTap: (index) {
                 NotesCubit.get(context).notesChangeBottomNav(index);
               },

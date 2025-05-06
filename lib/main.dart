@@ -25,6 +25,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    print(SharedPreferencesHelper.getData(key: "UserName"));
+    print(SharedPreferencesHelper.getData(key: "UserEmail"));
     return MultiBlocProvider(
       providers: [
        // BlocProvider(create: (context)=>WeatherCubit()..getWeatherData(location: "giza"),),
